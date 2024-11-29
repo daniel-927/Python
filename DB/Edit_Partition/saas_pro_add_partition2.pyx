@@ -124,7 +124,20 @@ class DBPartitionManager:
             for dbs in db_list:
                 for tbs in self.table_list:
                     # 检查是否存在要添加的分区
-                    check_add_exists = f"SELECT 1 FROM information_schema.partitions WHERE table_schema = '{dbs}' AND table_name = '{tbs}' AND partition_name = '{date_str_next}'"
+                    
+                    # 检查添加分区是否存在 # check_add_exists = f"SELECT 1 FROM information_schema.partitions WHERE table_schema = '{dbs}' AND table_name = '{tbs}' AND partition_name = '{date_str_next}'"
+                    # 检查添加分区是否存在以及是否存在更大的分区
+                    check_add_exists = f"""
+                    SELECT 
+                        partition_name, 
+                        partition_method, 
+                        partition_ordinal_position, 
+                        partition_description
+                    FROM information_schema.partitions
+                    WHERE table_schema = '{dbs}' 
+                    AND table_name = '{tbs}' 
+                    AND (partition_name = '{date_str_next}' OR partition_description > '{next_week_timestamp}')
+                    """
                     result_add_exists, _ = self.run_query(connection, check_add_exists)
                     try:
                         if not result_add_exists:
