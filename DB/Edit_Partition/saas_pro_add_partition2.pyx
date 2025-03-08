@@ -69,7 +69,7 @@ class DBPartitionManager:
 
         # 打开数据库连接
         connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
-
+        
         def del_partitions(count_num, db_list):
             # 30天前的时间
             last_30_days = current_date - datetime.timedelta(days=self.del_day + count_num)
@@ -175,6 +175,7 @@ class DBPartitionManager:
         full_delete_messages = "\n".join(delete_messages)
         full_does_not_exist_messages = "\n".join(does_not_exist_messages)
         full_already_messages = "\n".join(already_messages)
+        full_error_messages = "\n".join(db_list)
         self.send_telegram_message(full_error_messages)
         # 可以根据需要发送其他消息
         self.send_telegram_message(topic)
