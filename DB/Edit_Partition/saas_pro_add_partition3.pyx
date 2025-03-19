@@ -104,10 +104,7 @@ class DBPartitionManager:
         current_date: 当前日期，如果为None则使用当前时间
         send_messages: 是否立即发送消息，默认为True
         """
-        # 保存原始消息列表长度，用于判断是否有新消息
-        orig_error_len = len(self.error_messages)
-        orig_delete_len = len(self.delete_messages)
-        orig_does_not_exist_len = len(self.does_not_exist_messages)
+
         
         if current_date is None:
             tz = pytz.timezone('Europe/London')  # 设置时区为英国伦敦
@@ -148,16 +145,7 @@ class DBPartitionManager:
                 except pymysql.MySQLError as e:
                     self.error_messages.append(f"Error executing query: {e}")
                     
-        # 如果有新消息且需要立即发送
-        if send_messages and (
-            len(self.error_messages) > orig_error_len or 
-            len(self.delete_messages) > orig_delete_len or 
-            len(self.does_not_exist_messages) > orig_does_not_exist_len
-        ):
-            topic = f"{topic}\n{db_list}"
-            self.send_all_messages(topic)
             
-        return date_str_last
 
     def add_partitions(self, connection, count_num, db_list, topic=None, current_date=None, send_messages=True):
         """
@@ -171,10 +159,7 @@ class DBPartitionManager:
         current_date: 当前日期，如果为None则使用当前时间
         send_messages: 是否立即发送消息，默认为True
         """
-        # 保存原始消息列表长度，用于判断是否有新消息
-        orig_error_len = len(self.error_messages)
-        orig_add_len = len(self.add_messages)
-        orig_already_len = len(self.already_messages)
+
         
         if current_date is None:
             tz = pytz.timezone('Europe/London')  # 设置时区为英国伦敦
@@ -225,16 +210,6 @@ class DBPartitionManager:
                 except pymysql.MySQLError as e:
                     self.error_messages.append(f"Error executing query: {e}")
         
-        # 如果有新消息且需要立即发送
-        if send_messages and (
-            len(self.error_messages) > orig_error_len or 
-            len(self.add_messages) > orig_add_len or 
-            len(self.already_messages) > orig_already_len
-        ):
-            topic = f"{topic}\n{db_list}"
-            self.send_all_messages(topic)
-            
-        return date_str_next
 
     def manage_db_partitions(self, db_host, db_user, db_pwd, db_list, topic):
         """
