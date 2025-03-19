@@ -16,8 +16,8 @@ def main():
 
 ### 维护按天的分区维度
     # 分区管理参数
-    add_day  = 15       # 添加7天后的分区
-    del_day  = 30      # 删除45天前的分区
+    add_day  = 7       # 添加7天后的分区
+    del_day  = 10      # 删除10天前的分区
     edit_num = 8       # 添加或删除分区个数 8等于7个
     interval_days = 1  # 间隔天数
 
@@ -54,37 +54,51 @@ def main():
 
 
 
-    # 南美
+    # 实例
     topic = f"《按天维度》saas分区调整结束，情况如上。（正常情况下只有调整站点列表）"
-    db_host = "pc-gs5s8dc1712fyb97x.rwlb.singapore.rds.aliyuncs.com"
-    db_user = "polar_root"
-    db_pwd = "sN3DcLa3MDVW3Y2g9WDA"
+    db_host = "pxc-spravjm833psf7-pub.polarx.singapore.rds.aliyuncs.com"
+    db_user = "ives"
+    db_pwd = "Cssl#123123"
     db_list = [
         'artenant'
     ]
 
-    # 调用分区管理函数 一键删除和新增分区
-    notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic)
+
+
+    # # 调用分区管理函数 一键删除和新增分区
+    # notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic)
 
 
 
 
-    # # 选择进行删除或者新增分区
-    # # 创建数据库连接
-    # connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
-
-    # # 单独调用删除分区函数
-    # topic = f"《按天维度》saas历史分区删除完成。（正常情况下只有调整站点列表）"
-    # notifier.del_partitions(connection, 0, db_list, topic)
-
-    # # 单独调用添加分区函数
-    # topic = f"《按天维度》saas分区预添加完成。（正常情况下只有调整站点列表）"
-    # notifier.add_partitions(connection, 0, db_list, topic)
-
-    # # 不要忘记关闭连接
-    # connection.close()
 
 
+
+
+    # 单独执行分区管理（可分别执行删除和新增）
+    # 打开数据库连接
+    connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
+     
+    try:
+        for count_num in range(edit_num):  # 操作分区个数
+
+            # 单独调用删除分区函数
+            notifier.del_partitions(connection, count_num, db_list, topic)
+
+            # 单独调用添加分区函数
+            notifier.add_partitions(connection, count_num, db_list, topic)    
+
+
+        # 操作完成后，统一发送所有消息
+        topic = f"{topic}\n{db_list}"
+        notifier.send_all_messages(topic)
+            
+        
+    except Exception as e:
+        notifier.send_telegram_message(f"分区脚本执行报错: {e}")
+    finally:
+        # 关闭数据库连接
+        connection.close()
 
 
 
