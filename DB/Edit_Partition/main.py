@@ -55,7 +55,7 @@ def main():
 
 
     # 南美
-    topic = f"《按天维度》生产(南美)--saas分区调整结束，情况如上。（正常情况下只有调整站点列表）"
+    topic = f"《按天维度》saas分区调整结束，情况如上。（正常情况下只有调整站点列表）"
     db_host = "pc-gs5s8dc1712fyb97x.rwlb.singapore.rds.aliyuncs.com"
     db_user = "polar_root"
     db_pwd = "sN3DcLa3MDVW3Y2g9WDA"
@@ -64,23 +64,25 @@ def main():
     ]
 
     # 调用分区管理函数 一键删除和新增分区
-    # notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic)
+    notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic)
 
 
 
 
-    # 选择进行删除或者新增分区
-    # 创建数据库连接
-    connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
+    # # 选择进行删除或者新增分区
+    # # 创建数据库连接
+    # connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
 
-    # 单独调用删除分区函数
-    notifier.del_partitions(connection, 0, db_list, topic)
+    # # 单独调用删除分区函数
+    # topic = f"《按天维度》saas历史分区删除完成。（正常情况下只有调整站点列表）"
+    # notifier.del_partitions(connection, 0, db_list, topic)
 
-    # 单独调用添加分区函数
-    notifier.add_partitions(connection, 0, db_list, topic)
+    # # 单独调用添加分区函数
+    # topic = f"《按天维度》saas分区预添加完成。（正常情况下只有调整站点列表）"
+    # notifier.add_partitions(connection, 0, db_list, topic)
 
-    # 不要忘记关闭连接
-    connection.close()
+    # # 不要忘记关闭连接
+    # connection.close()
 
 
 
