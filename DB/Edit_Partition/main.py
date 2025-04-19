@@ -23,27 +23,8 @@ def main():
 
     # 分区表列表
     table_list = [
-        'tab_financialelectronic',
-        'tab_financialelectronic_jili',
-        'tab_financialelectronic_pg',
-        'tab_financialelectronic_pp',
-        'tab_financialelectronic_spribe',
-        'tab_financialelectronic_tb',
-        'tab_orderelectronic',
-        'tab_orderelectronic_jili',
-        'tab_orderelectronic_pg',
-        'tab_orderelectronic_pp',
-        'tab_orderelectronic_spribe',
-        'tab_orderelectronic_tb',
-        'tab_ordermakeup',
-        'tab_financiallottery_5d',
-        'tab_financiallottery_k3',
-        'tab_financiallottery_trxwingo',
-        'tab_financiallottery_wingo',
-        'tab_orderlottery_5d',
-        'tab_orderlottery_k3',
-        'tab_orderlottery_trxwingo',
-        'tab_orderlottery_wingo'
+        'table1',
+        'table2'
     ]
 
     # 实例化，并传递公共参数
@@ -60,7 +41,8 @@ def main():
     db_user = "ives"
     db_pwd = "Cssl#123123"
     db_list = [
-        'artenant'
+        'db1',
+        'db2'
     ]
 
 
