@@ -10,8 +10,8 @@ import pymysql
 def main():
 
     # telegram 配置
-    bot_token = "6327237666:AAEeH1FVThAdnBeYGBkpfWG7HfLy4Jzl_8w"  # 替换为实际的 Bot Token
-    chat_id = "-4578699157"      # 替换为实际的 Chat ID
+    bot_token = " "    # 替换为实际的 Bot Token
+    chat_id = " "      # 替换为实际的 Chat ID
 
 
 ### 维护按天的分区维度
