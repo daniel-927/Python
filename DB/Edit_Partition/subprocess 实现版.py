@@ -18,8 +18,8 @@ import requests
 import pytz
 
 # Telegram Bot 配置
-TELEGRAM_BOT_TOKEN = '6327237666:AAEeH1FVThAdnBeYGBkpfWG7HfLy4Jzl_8w'
-CHAT_ID = '-4578699157'
+TELEGRAM_BOT_TOKEN = '' # 替换为实际的 Bot Token
+CHAT_ID = '' # 替换为实际的 Chat ID
 
 # 将消息分割成较小的部分
 def split_message(message, max_length=4096):
