@@ -154,34 +154,15 @@ def manage_db_partitions(db_host, db_user, db_pwd, db_list, table_list, topic):
 
 # 分区表列表
 table_list = [
-    'tab_financialelectronic',
-    'tab_financialelectronic_jili',
-    'tab_financialelectronic_pg',
-    'tab_financialelectronic_pp',
-    'tab_financialelectronic_spribe',
-    'tab_financialelectronic_tb',
-    'tab_orderelectronic',
-    'tab_orderelectronic_jili',
-    'tab_orderelectronic_pg',
-    'tab_orderelectronic_pp',
-    'tab_orderelectronic_spribe',
-    'tab_orderelectronic_tb',
-    'tab_ordermakeup',
-    'tab_financiallottery_5d',
-    'tab_financiallottery_k3',
-    'tab_financiallottery_trxwingo',
-    'tab_financiallottery_wingo',
-    'tab_orderlottery_5d',
-    'tab_orderlottery_k3',
-    'tab_orderlottery_trxwingo',
-    'tab_orderlottery_wingo'
+    'table1',
+    'table2'
 ]
 
 # 实例1
 topic = f"生产--saas系统分区调整情况如上,如无内容则表示无需调整"
-db_host = "pc-gs5lkq94snv8uc4dc.rwlb.singapore.rds.aliyuncs.com"
-db_user = "polar_root"
-db_pwd = "HBho3ePONjjPn9H3CXWi"
-db_list = ['tenant_9900','tenant_9901']
+db_host = ""
+db_user = ""
+db_pwd = ""
+db_list = ['db1','db2']
 
 manage_db_partitions(db_host, db_user, db_pwd, db_list, table_list, topic)
