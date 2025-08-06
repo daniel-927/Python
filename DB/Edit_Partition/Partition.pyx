@@ -288,7 +288,7 @@ class DBPartitionManager:
                     self.logger.error(error_msg, exc_info=True)
         
 
-    def manage_db_partitions(self, db_host, db_user, db_pwd, db_list, topic):
+    def manage_db_partitions(self, db_host, db_user, db_pwd, db_list, topic, mode=None):
         """
         管理数据库分区的函数。
 
@@ -298,6 +298,7 @@ class DBPartitionManager:
         db_pwd (str): 数据库密码
         db_list (list): 库列表
         topic (str): 主题信息，用于发送消息
+        mode (str): 控制执行行为，可选值为 'add', 'del', None（默认添加和删除）
         """
         self.logger.info(f"Starting partition management for host: {db_host}, databases: {db_list}, topic: {topic}")
 
@@ -324,8 +325,13 @@ class DBPartitionManager:
                 for count_num in range(self.edit_num):  # 操作分区个数
                     self.logger.info(f"Processing partition batch {count_num + 1}/{self.edit_num}")
                     # 不立即发送消息，而是积累所有操作消息
-                    self.del_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
-                    self.add_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
+                    if mode == 'del':
+                        self.del_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
+                    elif mode == 'add':
+                        self.add_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
+                    else:
+                        self.del_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
+                        self.add_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
                     
                 # 操作完成后，统一发送所有消息
                 topic = f"{topic}\n{db_list}"
