@@ -48,7 +48,7 @@ def main():
 
 
     # # 调用分区管理函数 一键删除和新增分区
-    # notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic)
+    # notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic, mode=None) # mode默认为空执行删除和新增,'add'为仅新增,'del'为仅删除.
 
 
 
