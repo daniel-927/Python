@@ -140,10 +140,22 @@ class DBPartitionManager:
         return [message[i:i + max_length] for i in range(0, len(message), max_length)]
 
     @staticmethod
-    def run_query(connection, query):
+    def run_query(connection, query, params=None):
         with connection.cursor() as cursor:
-            cursor.execute(query)
-            return cursor.fetchall(), cursor._last_executed
+            # 尝试用 mogrify 得到最终 SQL（适配有参数的情况）
+            try:
+                executed_sql = cursor.mogrify(query, params) if params else cursor.mogrify(query)
+            except AttributeError:
+                executed_sql = query  # mogrify 不存在时直接用原始 SQL
+
+            cursor.execute(query, params or ())
+            results = cursor.fetchall()
+
+            # 防止 bytes 类型
+            if isinstance(executed_sql, bytes):
+                executed_sql = executed_sql.decode()
+
+            return results, executed_sql
 
     def del_partitions(self, connection, count_num, db_list, topic=None, current_date=None, send_messages=True):
         """
