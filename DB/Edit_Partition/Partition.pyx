@@ -185,7 +185,7 @@ class DBPartitionManager:
                 # 检查是否存在要删除的分区
                 check_drop_exists = f"SELECT 1 FROM information_schema.partitions WHERE table_schema = '{dbs}' AND table_name = '{tbs}' AND PARTITION_NAME = '{date_str_last}'"
                 try:
-                    self.logger.debug(f"Checking partition existence: {dbs}.{tbs}.{p1_date_str_last}")
+                    self.logger.debug(f"Checking partition existence: {dbs}.{tbs}.{date_str_last}")
                     result_drop_exists, _ = self.run_query(connection, check_drop_exists)
                     
                     if result_drop_exists:
@@ -262,7 +262,7 @@ class DBPartitionManager:
                 AND (PARTITION_NAME = '{date_str_next}' OR PARTITION_DESCRIPTION > '{next_week_timestamp}')
                 """
                 try:
-                    self.logger.debug(f"Checking partition existence: {dbs}.{tbs}.{p1_date_str_next}")
+                    self.logger.debug(f"Checking partition existence: {dbs}.{tbs}.{date_str_next}")
                     result_add_exists, _ = self.run_query(connection, check_add_exists)
                     
                     if not result_add_exists:
