@@ -103,7 +103,7 @@ class DBPartitionManager:
         all_messages = []
         
         if topic:
-            all_messages.append(f"主题: {topic}")
+            all_messages.append(f"分区维护完毕: {topic}")
             
         if self.error_messages:
             all_messages.append("错误信息:")
@@ -346,7 +346,8 @@ class DBPartitionManager:
                         self.add_partitions(connection, count_num, db_list, topic, current_date, send_messages=False)
                     
                 # 操作完成后，统一发送所有消息
-                topic = f"{topic}\n{db_list}"
+                topic = f"{db_list}\nPartition management summary - Added: {len(self.add_messages)}, Deleted: {len(self.delete_messages)}, Errors: {len(self.error_messages)}"
+                #topic = f"{topic}\n{db_list}"
                 self.logger.info("All partition operations completed, sending summary messages")
                 self.send_all_messages(topic)
                 
