@@ -48,7 +48,7 @@ def main():
 
 
     # # 调用分区管理函数 一键删除和新增分区
-    # notifier.manage_db_partitions(db_host, db_user, db_pwd, db_list, topic, mode=None) # mode默认为空执行删除和新增,'add'为仅新增,'del'为仅删除.
+    # notifier.manage_db_partitions(db_host, db_port, db_user, db_pwd, db_list, topic, mode=None) # mode默认为空执行删除和新增,'add'为仅新增,'del'为仅删除.
 
 
 
@@ -59,7 +59,7 @@ def main():
 
     # 单独执行分区管理（可分别执行删除和新增）
     # 打开数据库连接
-    connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
+    connection = pymysql.connect(host=db_host, port=db_port, user=db_user, password=db_pwd)
      
     try:
         for count_num in range(edit_num):  # 操作分区个数
