@@ -300,7 +300,7 @@ class DBPartitionManager:
                     self.logger.error(error_msg, exc_info=True)
         
 
-    def manage_db_partitions(self, db_host, db_user, db_pwd, db_list, topic, mode=None):
+    def manage_db_partitions(self, db_host, db_port, db_user, db_pwd, db_list, topic, mode=None):
         """
         管理数据库分区的函数。
 
@@ -329,7 +329,7 @@ class DBPartitionManager:
         try:
             # 打开数据库连接
             self.logger.info(f"Connecting to database: {db_host}")
-            connection = pymysql.connect(host=db_host, user=db_user, password=db_pwd)
+            connection = pymysql.connect(host=db_host, port=db_port, user=db_user, password=db_pwd)
             self.logger.info("Database connection established successfully")
             
             # 执行分区管理
